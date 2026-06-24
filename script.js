@@ -5,8 +5,8 @@
 
 // API KEYS
 
-const HYPIXEL_API_KEY = "";   // get one at https://developer.hypixel.net/dashboard
-const YOUTUBE_API_KEY = "";   // get one at https://console.cloud.google.com (enable "YouTube Data API v3")
+const HYPIXEL_API_KEY = "e9700b5b-1123-4a05-8af8-4eb2d010f37c";   // https://developer.hypixel.net/dashboard
+const YOUTUBE_API_KEY = "AIzaSyDqLrlb92OZUPmzh6zk4oIXQuaEjwU6tMM";   // https://console.cloud.google.com
 
 // CONSTS
 
