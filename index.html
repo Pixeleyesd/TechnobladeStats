@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechnobladeStats</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="topBar">
+    <span id="brand">Technoblade<span id="brandStats">Stats</span></span>
+    <span id="timeelement">loading time...</span>
+</div>
+
+<header id="hero">
+    <h1>"Technoblade never dies."</h1>
+    <p id="heroSub">A tribute page tracking time, stats, and numbers tied to Technoblade - Alexander, June 1 1999 - June 2022.</p>
+</header>
+
+<main id="grid">
+
+    <!-- TIME SECTION -->
+    <section class="section">
+        <h2 class="sectionTitle">Time</h2>
+        <div class="tileRow">
+
+            <div class="tile tile-wide">
+                <p class="tileLabel">Time without him</p>
+                <p class="tileBig" id="timeWithout">-</p>
+                <p class="tileFoot">Since "so long nerds" was posted - June 30, 2022 (the date most widely reported; the exact day was never confirmed by his family)</p>
+            </div>
+
+            <div class="tile tile-wide">
+                <p class="tileLabel">Time until his birthday</p>
+                <p class="tileBig" id="timeUntilBirthday">-</p>
+                <p class="tileFoot">June 1 - he was born in 1999, and would be turning <span id="turningAge">-</span></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- HYPIXEL SECTION -->
+    <section class="section">
+        <h2 class="sectionTitle">Hypixel stats</h2>
+        <p class="sectionNote">Pulled from the Hypixel public API. Requires your own free API key - see the box at the bottom of the page.</p>
+        <div class="tileRow" id="hypixelGrid">
+            <div class="tile">
+                <p class="tileLabel">Network level</p>
+                <p class="tileNum" id="hyNetworkLevel">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">Karma</p>
+                <p class="tileNum" id="hyKarma">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">First login</p>
+                <p class="tileNum" id="hyFirstLogin">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">Last login</p>
+                <p class="tileNum" id="hyLastLogin">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">Bedwars level</p>
+                <p class="tileNum" id="hyBedwarsLevel">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">Bedwars final kills</p>
+                <p class="tileNum" id="hyBedwarsFinals">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">SkyWars level</p>
+                <p class="tileNum" id="hySkywarsLevel">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">SkyWars kills</p>
+                <p class="tileNum" id="hySkywarsKills">-</p>
+            </div>
+        </div>
+        <p class="tileFootStandalone" id="hypixelStatus">Waiting for API key.</p>
+    </section>
+
+    <!-- YOUTUBE SECTION -->
+    <section class="section">
+        <h2 class="sectionTitle">YouTube - Technoblade</h2>
+        <p class="sectionNote">Main channel, @Technoblade. Requires a YouTube Data API v3 key - see the box at the bottom of the page.</p>
+        <div class="tileRow">
+            <div class="tile">
+                <p class="tileLabel">Subscribers</p>
+                <p class="tileNum" id="ytMainSubs">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">Total views</p>
+                <p class="tileNum" id="ytMainViews">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">Videos uploaded</p>
+                <p class="tileNum" id="ytMainVideos">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">Channel created</p>
+                <p class="tileNum" id="ytMainCreated">-</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="sectionTitle">YouTube - Team Technoblade</h2>
+        <p class="sectionNote">Run by Technoblade's family, posting unseen footage and updates.</p>
+        <div class="tileRow">
+            <div class="tile">
+                <p class="tileLabel">Subscribers</p>
+                <p class="tileNum" id="ytTeamSubs">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">Total views</p>
+                <p class="tileNum" id="ytTeamViews">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">Videos uploaded</p>
+                <p class="tileNum" id="ytTeamVideos">-</p>
+            </div>
+            <div class="tile">
+                <p class="tileLabel">Channel created</p>
+                <p class="tileNum" id="ytTeamCreated">-</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="sectionTitle">Combined totals</h2>
+        <div class="tileRow">
+            <div class="tile tile-accent">
+                <p class="tileLabel">Combined subscribers</p>
+                <p class="tileNum" id="combinedSubs">-</p>
+            </div>
+            <div class="tile tile-accent">
+                <p class="tileLabel">Combined views</p>
+                <p class="tileNum" id="combinedViews">-</p>
+            </div>
+        </div>
+        <p class="tileFootStandalone" id="ytStatus">Waiting for API key.</p>
+    </section>
+
+    <!-- TOP VIDEOS -->
+    <section class="section">
+        <h2 class="sectionTitle">Top 5 videos</h2>
+        <p class="sectionNote">Ranked by view count, across both channels.</p>
+        <div class="tileRow" id="topVideosGrid">
+            <div class="tile videoTile">
+                <p class="rank">01</p>
+                <p class="tileLabel">-</p>
+                <p class="tileFoot">-</p>
+            </div>
+            <div class="tile videoTile">
+                <p class="rank">02</p>
+                <p class="tileLabel">-</p>
+                <p class="tileFoot">-</p>
+            </div>
+            <div class="tile videoTile">
+                <p class="rank">03</p>
+                <p class="tileLabel">-</p>
+                <p class="tileFoot">-</p>
+            </div>
+            <div class="tile videoTile">
+                <p class="rank">04</p>
+                <p class="tileLabel">-</p>
+                <p class="tileFoot">-</p>
+            </div>
+            <div class="tile videoTile">
+                <p class="rank">05</p>
+                <p class="tileLabel">-</p>
+                <p class="tileFoot">-</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- API KEY SETUP -->
+    <section class="section">
+        <h2 class="sectionTitle">API keys</h2>
+        <div class="tile tile-wide keyBox">
+            <p class="tileFoot">
+                This page needs two free API keys to load live data: a Hypixel key from developer.hypixel.net,
+                and a YouTube Data API v3 key from the Google Cloud Console.
+            </p>
+        </div>
+    </section>
+
+</main>
+
+<footer id="pageFooter">
+    <p>Technoblade never dies.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
