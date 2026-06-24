@@ -42,6 +42,10 @@ function setText(id, value) {
     const el = document.getElementById(id);
     if (el) el.textContent = value;
 }
+function tickClock() {
+    const now = new Date();
+    setText("timeelement", now.toLocaleTimeString("en-US"));
+}
 
 // time since passing
 
