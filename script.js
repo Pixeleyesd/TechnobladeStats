@@ -1,20 +1,16 @@
-// ============================================================
-// TechnobladeStats — script.js
-// Handles: live clock, time-since / time-until counters,
+// technoblade stats script.js
+// handles live clock, time-since / time-until counters,
 // Hypixel API calls, YouTube Data API v3 calls, top videos.
-// ============================================================
 
-// ---------- PASTE YOUR API KEYS HERE ----------
+
+// API KEYS
 
 const HYPIXEL_API_KEY = "";   // get one at https://developer.hypixel.net/dashboard
 const YOUTUBE_API_KEY = "";   // get one at https://console.cloud.google.com (enable "YouTube Data API v3")
 
-// ---------- constants ----------
+// CONSTS
 
-// "so long nerds" was uploaded June 30, 2022. Several outlets reported
-// the passing itself happened a little earlier and was only announced
-// that day — the exact date was never confirmed by his family, so this
-// is the best publicly known reference point.
+// "so long nerds" was uploaded June 30, 2022
 const PASSING_DATE = new Date("2022-06-30T00:00:00Z");
 
 // Born June 1, 1999.
@@ -22,11 +18,11 @@ const BIRTH_MONTH = 5; // 0-indexed, June
 const BIRTH_DAY = 1;
 const BIRTH_YEAR = 1999;
 
-const HYPIXEL_PLAYER = "Technoblade"; // last known in-game name
+const HYPIXEL_PLAYER = "Technoblade"; // ign
 const YT_MAIN_HANDLE = "Technoblade";
-const YT_TEAM_HANDLE = "TeamTechnoblade-o7"; // current handle as of mid-2026; the channel has changed handles before
+const YT_TEAM_HANDLE = "TeamTechnoblade-o7"; // current handle
 
-// ---------- small helpers ----------
+// helpers
 
 function pad(n) {
     return String(n).padStart(2, "0");
@@ -47,14 +43,7 @@ function setText(id, value) {
     if (el) el.textContent = value;
 }
 
-// ---------- top clock ----------
-
-function tickClock() {
-    const now = new Date();
-    setText("timeelement", now.toLocaleTimeString("en-US"));
-}
-
-// ---------- time without him ----------
+// time since passing
 
 function tickTimeWithout() {
     const now = new Date();
@@ -74,7 +63,7 @@ function tickTimeWithout() {
     );
 }
 
-// ---------- time until birthday ----------
+// time till bday
 
 function tickTimeUntilBirthday() {
     const now = new Date();
@@ -97,12 +86,12 @@ function tickTimeUntilBirthday() {
     setText("turningAge", `${turningAge}`);
 }
 
-// ---------- Hypixel API ----------
+// hypixel api
 
 async function loadHypixelStats(apiKey) {
     const statusEl = document.getElementById("hypixelStatus");
     if (!apiKey) {
-        statusEl.textContent = "Add your Hypixel API key to the HYPIXEL_API_KEY variable at the top of script.js.";
+        statusEl.textContent = "Hypixel API key invalid / missing";
         return;
     }
 
@@ -156,7 +145,7 @@ async function loadHypixelStats(apiKey) {
     }
 }
 
-// Approximate Bedwars star calculation from XP (Hypixel's published formula).
+// Approximate Bedwars star calculation from XP (Hypixel's published formula)
 function bedwarsLevelFromExp(exp) {
     const easyLevels = [500, 1000, 2000, 3500];
     const easyTotal = 7000;
@@ -175,7 +164,7 @@ function bedwarsLevelFromExp(exp) {
     return level;
 }
 
-// ---------- YouTube Data API ----------
+// YT api
 
 async function resolveChannelIdFromHandle(handle, apiKey) {
     const url = `https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails&forHandle=${encodeURIComponent(
@@ -241,11 +230,11 @@ function renderTopVideos(videos) {
 async function loadYouTubeStats(apiKey) {
     const statusEl = document.getElementById("ytStatus");
     if (!apiKey) {
-        statusEl.textContent = "Add your YouTube API key to the YOUTUBE_API_KEY variable at the top of script.js.";
+        statusEl.textContent = "Youtube api key may be missing/invalid";
         return;
     }
 
-    statusEl.textContent = "Loading YouTube stats...";
+    statusEl.textContent = "attempting to load youtube stats";
 
     try {
         const [mainChannel, teamChannel] = await Promise.all([
@@ -295,7 +284,7 @@ async function loadYouTubeStats(apiKey) {
     }
 }
 
-// ---------- wiring ----------
+// cool stuff
 
 function loadAllStats() {
     loadHypixelStats(HYPIXEL_API_KEY);
