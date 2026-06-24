@@ -5,8 +5,8 @@
 
 // API KEYS
 
-const HYPIXEL_API_KEY = "e9700b5b-1123-4a05-8af8-4eb2d010f37c";   // https://developer.hypixel.net/dashboard
-const YOUTUBE_API_KEY = "AIzaSyDqLrlb92OZUPmzh6zk4oIXQuaEjwU6tMM";   // https://console.cloud.google.com
+const HYPIXEL_API_KEY = "4eb96a7c-dca3-4940-b752-e7eb1591a878";   // https://developer.hypixel.net/dashboard
+const YOUTUBE_API_KEY = "AIzaSyAfXF18-tuJs9ss2PghUC8tjwFSyBnmakw";   // https://console.cloud.google.com
 
 // CONSTS
 
