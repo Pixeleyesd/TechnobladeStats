@@ -1,104 +1,159 @@
-// technoblade stats script.js
-// handles live clock, time-since / time-until counters,
-// Hypixel API calls, YouTube Data API v3 calls, top videos.
-
-
 // API KEYS
-
-const YOUTUBE_API_KEY = "AIzaSyD2UwW2P3tPyPqt8X2fUl4F8uIDl8WVUeA";   // https://console.cloud.google.com
+const YOUTUBE_API_KEY = "AIzaSyD2UwW2P3tPyPqt8X2fUl4F8uIDl8WVUeA";   
 
 // CONSTS
-
-// "so long nerds" was uploaded June 30, 2022
 const PASSING_DATE = new Date("2022-06-30T00:00:00Z");
-
-// Born June 1, 1999.
-const BIRTH_MONTH = 5; // 0-indexed, June
+const BIRTH_MONTH = 5; 
 const BIRTH_DAY = 1;
 const BIRTH_YEAR = 1999;
 
-const HYPIXEL_PLAYER = "Technoblade"; // ign
-const YT_MAIN_HANDLE = "Technoblade";
-const YT_TEAM_HANDLE = "TeamTechnoblade-o7"; // current handle
+// hardcoded Channel IDs to bypass the deprecated forHandle endpoint
+const YT_MAIN_ID = "UCFAiFyGs6oDiF1Nf-rRJpZA";
+const YT_TEAM_ID = "UCaWivG6OCoPeKZ2aP3D6ffQ";
 
-// helpers
+// helper functions
 
 function pad(n) {
-    return String(n).padStart(2, "0");
+
+return String(n).padStart(2, "0");
+
 }
+
+
 
 function formatNumber(n) {
-    if (n === null || n === undefined || isNaN(n)) return "—";
-    return Number(n).toLocaleString("en-US");
+
+if (n === null || n === undefined || isNaN(n)) return "—";
+
+return Number(n).toLocaleString("en-US");
+
 }
+
+
 
 function formatDateShort(d) {
-    if (!d) return "—";
-    return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+
+if (!d) return "—";
+
+return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+
 }
 
+
+
 function setText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
+
+const el = document.getElementById(id);
+
+if (el) el.textContent = value;
+
 }
+
 function tickClock() {
-    const now = new Date();
-    setText("timeelement", now.toLocaleTimeString("en-US"));
+
+const now = new Date();
+
+setText("timeelement", now.toLocaleTimeString("en-US"));
+
 }
+
+
 
 // time since passing
 
+
+
 function tickTimeWithout() {
-    const now = new Date();
-    const diffMs = now.getTime() - PASSING_DATE.getTime();
 
-    const totalSeconds = Math.floor(diffMs / 1000);
-    const years = Math.floor(totalSeconds / (365.2425 * 24 * 3600));
-    const remAfterYears = totalSeconds - Math.floor(years * 365.2425 * 24 * 3600);
-    const days = Math.floor(remAfterYears / 86400);
-    const hours = Math.floor((remAfterYears % 86400) / 3600);
-    const minutes = Math.floor((remAfterYears % 3600) / 60);
-    const seconds = remAfterYears % 60;
+const now = new Date();
 
-    setText(
-        "timeWithout",
-        `${years}y ${days}d ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`
-    );
+const diffMs = now.getTime() - PASSING_DATE.getTime();
+
+
+
+const totalSeconds = Math.floor(diffMs / 1000);
+
+const years = Math.floor(totalSeconds / (365.2425 * 24 * 3600));
+
+const remAfterYears = totalSeconds - Math.floor(years * 365.2425 * 24 * 3600);
+
+const days = Math.floor(remAfterYears / 86400);
+
+const hours = Math.floor((remAfterYears % 86400) / 3600);
+
+const minutes = Math.floor((remAfterYears % 3600) / 60);
+
+const seconds = remAfterYears % 60;
+
+
+
+setText(
+
+"timeWithout",
+
+`${years}y ${days}d ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`
+
+);
+
 }
+
+
 
 // time till bday
 
+
+
 function tickTimeUntilBirthday() {
-    const now = new Date();
-    let nextBirthday = new Date(now.getFullYear(), BIRTH_MONTH, BIRTH_DAY, 0, 0, 0);
 
-    if (nextBirthday.getTime() <= now.getTime()) {
-        nextBirthday = new Date(now.getFullYear() + 1, BIRTH_MONTH, BIRTH_DAY, 0, 0, 0);
-    }
+const now = new Date();
 
-    const diffMs = nextBirthday.getTime() - now.getTime();
-    const totalSeconds = Math.floor(diffMs / 1000);
-    const days = Math.floor(totalSeconds / 86400);
-    const hours = Math.floor((totalSeconds % 86400) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
+let nextBirthday = new Date(now.getFullYear(), BIRTH_MONTH, BIRTH_DAY, 0, 0, 0);
 
-    setText("timeUntilBirthday", `${days}d ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`);
 
-    const turningAge = nextBirthday.getFullYear() - BIRTH_YEAR;
-    setText("turningAge", `${turningAge}`);
+
+if (nextBirthday.getTime() <= now.getTime()) {
+
+nextBirthday = new Date(now.getFullYear() + 1, BIRTH_MONTH, BIRTH_DAY, 0, 0, 0);
+
 }
 
-// YT api
 
-async function resolveChannelIdFromHandle(handle, apiKey) {
-    const url = `https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails&forHandle=${encodeURIComponent(
-        handle
+
+const diffMs = nextBirthday.getTime() - now.getTime();
+
+const totalSeconds = Math.floor(diffMs / 1000);
+
+const days = Math.floor(totalSeconds / 86400);
+
+const hours = Math.floor((totalSeconds % 86400) / 3600);
+
+const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+const seconds = totalSeconds % 60;
+
+
+
+setText("timeUntilBirthday", `${days}d ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`);
+
+
+
+const turningAge = nextBirthday.getFullYear() - BIRTH_YEAR;
+
+setText("turningAge", `${turningAge}`);
+
+}
+
+
+
+// UPDATED fetch channel data directly by id instead of handle
+async function fetchChannelDataById(channelId, apiKey) {
+    const url = `https://www.googleapis.com/youtube/v3/channels?part=id,snippet,statistics,contentDetails&id=${encodeURIComponent(
+        channelId
     )}&key=${encodeURIComponent(apiKey)}`;
     const res = await fetch(url);
     const data = await res.json();
     if (!data.items || data.items.length === 0) {
-        throw new Error(`Channel @${handle} not found.`);
+        throw new Error(`Channel ID ${channelId} not found.`);
     }
     return data.items[0];
 }
@@ -155,16 +210,17 @@ function renderTopVideos(videos) {
 async function loadYouTubeStats(apiKey) {
     const statusEl = document.getElementById("ytStatus");
     if (!apiKey) {
-        statusEl.textContent = "Youtube api key may be missing/invalid";
+        statusEl.textContent = "YouTube API key may be missing/invalid";
         return;
     }
 
-    statusEl.textContent = "attempting to load youtube stats";
+    statusEl.textContent = "Attempting to load YouTube stats...";
 
     try {
+        // use fixed Channel IDs instead of handles
         const [mainChannel, teamChannel] = await Promise.all([
-            resolveChannelIdFromHandle(YT_MAIN_HANDLE, apiKey),
-            resolveChannelIdFromHandle(YT_TEAM_HANDLE, apiKey).catch((e) => {
+            fetchChannelDataById(YT_MAIN_ID, apiKey),
+            fetchChannelDataById(YT_TEAM_ID, apiKey).catch((e) => {
                 console.warn("Team Technoblade channel lookup failed:", e.message);
                 return null;
             }),
@@ -188,7 +244,6 @@ async function loadYouTubeStats(apiKey) {
         setText("combinedSubs", formatNumber(mainSubs + teamSubs));
         setText("combinedViews", formatNumber(mainViews + teamViews));
 
-        // Top 5 videos across both channels, by view count.
         const mainUploads = mainChannel.contentDetails.relatedPlaylists.uploads;
         const videoIds = await getUploadsPlaylistVideos(mainUploads, apiKey, 50);
 
@@ -209,10 +264,13 @@ async function loadYouTubeStats(apiKey) {
     }
 }
 
-// cool stuff
-
+// hypixel stats broken here since i hardcoded them but whatevs
 function loadAllStats() {
-    loadHypixelStats(HYPIXEL_API_KEY);
+    if (typeof loadHypixelStats === "function" && typeof HYPIXEL_API_KEY !== "undefined") {
+        loadHypixelStats(HYPIXEL_API_KEY);
+    } else {
+        console.warn("Hypixel function or API key is missing.");
+    }
     loadYouTubeStats(YOUTUBE_API_KEY);
 }
 
