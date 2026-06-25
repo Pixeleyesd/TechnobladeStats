@@ -5,7 +5,6 @@
 
 // API KEYS
 
-const HYPIXEL_API_KEY = "4eb96a7c-dca3-4940-b752-e7eb1591a878";   // https://developer.hypixel.net/dashboard
 const YOUTUBE_API_KEY = "AIzaSyAfXF18-tuJs9ss2PghUC8tjwFSyBnmakw";   // https://console.cloud.google.com
 
 // CONSTS
@@ -88,84 +87,6 @@ function tickTimeUntilBirthday() {
 
     const turningAge = nextBirthday.getFullYear() - BIRTH_YEAR;
     setText("turningAge", `${turningAge}`);
-}
-
-// hypixel api
-
-async function loadHypixelStats(apiKey) {
-    const statusEl = document.getElementById("hypixelStatus");
-    if (!apiKey) {
-        statusEl.textContent = "Hypixel API key invalid / missing";
-        return;
-    }
-
-    statusEl.textContent = "Loading Hypixel stats...";
-
-    try {
-        // Hypixel requires a UUID for lookups; resolve the name first.
-        const mojangRes = await fetch(
-            `https://api.mojang.com/users/profiles/minecraft/${HYPIXEL_PLAYER}`
-        );
-        if (!mojangRes.ok) throw new Error("Could not resolve Minecraft UUID.");
-        const mojangData = await mojangRes.json();
-        const uuid = mojangData.id;
-
-        const hyRes = await fetch(
-            `https://api.hypixel.net/v2/player?key=${encodeURIComponent(apiKey)}&uuid=${uuid}`
-        );
-        const hyData = await hyRes.json();
-
-        if (!hyData.success) {
-            throw new Error(hyData.cause || "Hypixel API request failed.");
-        }
-
-        const player = hyData.player;
-        if (!player) {
-            statusEl.textContent = "Hypixel returned no player data (API access for this profile may be private).";
-            return;
-        }
-
-        const networkExp = player.networkExp || 0;
-        const networkLevel = Math.floor((Math.sqrt(networkExp + 15312.5) - 88.38834764831845) / 35.34270691770539);
-
-        setText("hyNetworkLevel", formatNumber(networkLevel));
-        setText("hyKarma", formatNumber(player.karma));
-        setText("hyFirstLogin", player.firstLogin ? formatDateShort(new Date(player.firstLogin)) : "—");
-        setText("hyLastLogin", player.lastLogin ? formatDateShort(new Date(player.lastLogin)) : "—");
-
-        const bedwars = (player.stats && player.stats.Bedwars) || {};
-        const bwExp = bedwars.Experience || 0;
-        setText("hyBedwarsLevel", formatNumber(bedwarsLevelFromExp(bwExp)));
-        setText("hyBedwarsFinals", formatNumber(bedwars.final_kills_bedwars));
-
-        const skywars = (player.stats && player.stats.SkyWars) || {};
-        setText("hySkywarsLevel", skywars.levelFormatted ? skywars.levelFormatted.replace(/§./g, "") : "—");
-        setText("hySkywarsKills", formatNumber(skywars.kills));
-
-        statusEl.textContent = "Live data from api.hypixel.net.";
-    } catch (err) {
-        console.error(err);
-        statusEl.textContent = `Could not load Hypixel stats: ${err.message}`;
-    }
-}
-
-// Approximate Bedwars star calculation from XP (Hypixel's published formula)
-function bedwarsLevelFromExp(exp) {
-    const easyLevels = [500, 1000, 2000, 3500];
-    const easyTotal = 7000;
-    const levelExp = 5000;
-
-    if (exp >= easyTotal) {
-        return Math.floor((exp - easyTotal) / levelExp) + 4;
-    }
-    let level = 0;
-    let remaining = exp;
-    for (const cost of easyLevels) {
-        if (remaining < cost) break;
-        remaining -= cost;
-        level++;
-    }
-    return level;
 }
 
 // YT api
