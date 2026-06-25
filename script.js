@@ -5,7 +5,7 @@
 
 // API KEYS
 
-const YOUTUBE_API_KEY = "AIzaSyAfXF18-tuJs9ss2PghUC8tjwFSyBnmakw";   // https://console.cloud.google.com
+const YOUTUBE_API_KEY = "AIzaSyD2UwW2P3tPyPqt8X2fUl4F8uIDl8WVUeA";   // https://console.cloud.google.com
 
 // CONSTS
 
