@@ -257,7 +257,7 @@ async function loadYouTubeStats(apiKey) {
         allVideos.sort((a, b) => Number(b.statistics.viewCount || 0) - Number(a.statistics.viewCount || 0));
         renderTopVideos(allVideos);
 
-        statusEl.textContent = "Live data from the YouTube Data API.";
+        statusEl.textContent = "";
     } catch (err) {
         console.error(err);
         statusEl.textContent = `Could not load YouTube stats: ${err.message}`;
